@@ -6,7 +6,8 @@ export interface CharacterStats {
     level: number;
     currentXp: number;
     requiredXp: number;
-    evolutionStage: number; // 1: 퍼피, 2: 성견, 3: 최종 진화
+    evolutionStage: number; // 1: 고양이, 2: 이브이, 3: 최종 진화
+    finalForm?: 'sylveon' | 'leafeon' | 'flareon' | 'glaceon';
 }
 
 export interface Todo {
@@ -14,7 +15,7 @@ export interface Todo {
     text: string;
     completed: boolean;
     dueDate?: string;
-    priority?: 1 | 2 | 3; // 1: 긴급, 2: 보통, 3: 여유
+    priority?: 1 | 2 | 3;
 }
 
 // ----------------------------------------------------------------------
