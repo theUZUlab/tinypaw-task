@@ -6,17 +6,29 @@ interface OnboardingProps {
 }
 
 export default function Onboarding({ onComplete }: OnboardingProps) {
+    // ----------------------------------------------------------------------
+    // 1. 상태(State) 관리
+    // ----------------------------------------------------------------------
     const [name, setName] = useState('');
 
+    // ----------------------------------------------------------------------
+    // 2. 이벤트 핸들러
+    // ----------------------------------------------------------------------
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!name.trim()) return;
 
-        const initialStats = getInitialStats(name.trim());
+        const trimmedName = name.trim();
+        if (!trimmedName) return;
+
+        // 초기 스탯 생성 후 로컬 스토리지 저장 & 부모 컴포넌트에 완료 알림
+        const initialStats = getInitialStats(trimmedName);
         saveStats(initialStats);
         onComplete(initialStats);
     };
 
+    // ----------------------------------------------------------------------
+    // 3. 렌더링 (UI)
+    // ----------------------------------------------------------------------
     return (
         <div className="min-h-screen bg-[#F8FAFC] flex flex-col items-center justify-center p-4">
             <div className="bg-white p-8 rounded-3xl shadow-lg max-w-md w-full text-center">
