@@ -1,39 +1,23 @@
 import { useState } from 'react';
 import Onboarding from './components/Onboarding';
+import Dashboard from './components/Dashboard';
 import { getStats, type CharacterStats } from './lib/storage';
 
-function App() {
+export default function App() {
+    // ----------------------------------------------------------------------
+    // 1. 상태(State) 관리
+    // ----------------------------------------------------------------------
+    // 처음 렌더링될 때 로컬 스토리지에서 정보를 딱 한 번만 가져옵니다 (Lazy Initialization)
     const [stats, setStats] = useState<CharacterStats | null>(() => getStats());
 
+    // ----------------------------------------------------------------------
+    // 2. 화면 라우팅 (렌더링)
+    // ----------------------------------------------------------------------
+    // 로컬 스토리지에 캐릭터 정보(이름 등)가 없으면 온보딩(이름 짓기) 화면을 보여줍니다.
     if (!stats) {
         return <Onboarding onComplete={(newStats) => setStats(newStats)} />;
     }
 
-    return (
-        <div className="min-h-screen bg-[#F8FAFC]">
-            <div className="max-w-2xl mx-auto pt-12 px-4 text-center">
-                <h1 className="text-3xl font-bold mb-4">🐾 {stats.name} 플래너</h1>
-                <p className="mb-8 text-gray-600">
-                    레벨: {stats.level} | 진화 단계: {stats.evolutionStage}
-                </p>
-
-                {/* 추후 여기에 실제 To-do 리스트 컴포넌트가 들어갑니다 */}
-                <div className="p-8 bg-white rounded-2xl shadow-sm border border-gray-100">
-                    <p className="text-gray-400">투두 리스트 영역 준비 중...</p>
-                </div>
-
-                <button
-                    onClick={() => {
-                        localStorage.clear();
-                        window.location.reload();
-                    }}
-                    className="mt-12 text-sm text-red-400 hover:text-red-500 underline"
-                >
-                    데이터 초기화 (테스트용)
-                </button>
-            </div>
-        </div>
-    );
+    // 캐릭터 정보가 존재하면 메인 대시보드(투두 리스트) 화면을 보여줍니다.
+    return <Dashboard stats={stats} onUpdateStats={setStats} />;
 }
-
-export default App;
